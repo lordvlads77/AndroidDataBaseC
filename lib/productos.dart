@@ -30,7 +30,15 @@ class _Alta_ProductosState extends State<Alta_Productos> {
     }).timeout(Duration(seconds: 90));
 
 
-    print(response.body);
+    //print(response.body);
+    if(response.body == '1') {
+      mostrar_alerta('Se guardo correctamente el producto');
+      c_nombre.text = '';
+      c_precio.text = '';
+      c_descripcion.text = '';
+    }else {
+      mostrar_alerta(response.body);
+    }
   }
 
   mostrar_alerta(mensaje){
