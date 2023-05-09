@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'show_products.dart';
 
 class Alta_Productos extends StatefulWidget {
   const Alta_Productos({Key? key}) : super(key: key);
@@ -109,9 +110,16 @@ class _Alta_ProductosState extends State<Alta_Productos> {
                   }else{
                     subir_producto();
                   }
-
                 },
-                    child: Text('Guardar'))
+                    child: Text('Guardar')),
+                SizedBox(height: 30,),
+                ElevatedButton(onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context){
+                        return Productos();
+                      }));
+                },
+                    child: Text('Ver Productos'))
               ],
             ),
           ),
