@@ -19,7 +19,9 @@ class _Alta_ProductosState extends State<Alta_Productos> {
   String? precio = '';
   String? descripcion = '';
 
-  subir_producto() async{
+
+
+  Future subir_producto() async{
     
     print('Lista:'+nombre!+'--'+precio!+'--'+descripcion!);
 
