@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:apps/editar.dart';
 import 'package:apps/registros.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -99,6 +100,17 @@ class _ProductosState extends State<Productos> {
 
     if (response.body == '1'){
       mostrar_alerta('Tu producto se elimino correctamente');
+      setState(() {
+        loading = true;
+        reg = [];
+        productos_show().then((value){
+          setState(() {
+            reg.addAll(value);
+            loading = false;
+          });
+          // El set state sirve para redibujar las variables que han cambiado
+        });
+      });
     }else {
       mostrar_alerta(response.body);
     }
@@ -131,6 +143,12 @@ class _ProductosState extends State<Productos> {
               child: CircularProgressIndicator(),
           )
 
+      : reg.isEmpty ?
+
+      Center(
+        child: Text('No tienes ningun producto registrado'),
+      )
+
       : ListView.builder(
         itemCount: reg.length,
           itemBuilder: (BuildContext context, int index){
@@ -154,7 +172,15 @@ class _ProductosState extends State<Productos> {
                     ),
                   ),
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context){
+                          return Editar(reg[index].id!);
+                        }
+                      ));
+
+                    },
                     child: Icon(Icons.edit, color: Colors.green,),
                   ),
                   SizedBox(width: 10,),
