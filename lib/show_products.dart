@@ -178,7 +178,20 @@ class _ProductosState extends State<Productos> {
                         builder: (BuildContext context){
                           return Editar(reg[index].id!);
                         }
-                      ));
+                      )).then((value){
+
+                        setState(() {
+                          loading = true;
+                          reg = [];
+                          productos_show().then((value){
+                            setState(() {
+                              reg.addAll(value);
+                              loading = false;
+                            });
+                            // El set state sirve para redibujar o refreshear las variables que han cambiado
+                          });
+                        });
+                      });
 
                     },
                     child: Icon(Icons.edit, color: Colors.green,),

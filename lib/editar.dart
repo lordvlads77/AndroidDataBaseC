@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,8 +30,9 @@ class _EditarState extends State<Editar> {
 
     print('Lista:'+nombre!+'--'+precio!+'--'+descripcion!);
 
-    var url = Uri.parse('http://fictionsearch.net/AndroidDatabaseConnect/subirProductos.php');
+    var url = Uri.parse('http://fictionsearch.net/AndroidDatabaseConnect/editarProducto.php');
     var response = await http.post(url, body: {
+      'id' : widget.id,
       'nombre': nombre,
       'precio': precio,
       'descripcion' : descripcion
@@ -38,10 +41,11 @@ class _EditarState extends State<Editar> {
 
     //print(response.body);
     if(response.body == '1') {
-      mostrar_alerta('Se guardo correctamente el producto');
-      c_nombre.text = '';
+      Navigator.of(context).pop();
+      mostrar_alerta('Se modifico correctamente el producto');
+      /*c_nombre.text = '';
       c_precio.text = '';
-      c_descripcion.text = '';
+      c_descripcion.text = '';*/
     }else {
       mostrar_alerta(response.body);
     }
@@ -79,6 +83,13 @@ class _EditarState extends State<Editar> {
     }).timeout(Duration(seconds: 90));
     
     print(response.body);
+
+    var datos = jsonDecode(response.body);
+
+
+    c_nombre.text = datos['nombre'];
+    c_precio.text = datos['precio'].toString();
+    c_descripcion.text = datos['descripcion'];
     
   }
 
