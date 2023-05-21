@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'customloading.dart';
 
 
 class Editar extends StatefulWidget {
@@ -106,51 +107,56 @@ class _EditarState extends State<Editar> {
       appBar: AppBar(
         title: Text('Editar Productos'),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-            child: Column(
-              children: [
-                TextField(
-                  controller: c_nombre,
-                  decoration: InputDecoration(
-                    hintText: 'Nombre del producto',
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+        child: ListView(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: c_nombre,
+                    decoration: InputDecoration(
+                      hintText: 'Nombre del producto',
+                    ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: c_precio,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      hintText: 'Precio del producto'
+                  SizedBox(height: 10,),
+                  TextField(
+                    controller: c_precio,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        hintText: 'Precio del producto'
+                    ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                TextField(
-                  controller: c_descripcion,
-                  decoration: InputDecoration(
-                      hintText: 'Descripcion'
+                  SizedBox(height: 10,),
+                  TextField(
+                    controller: c_descripcion,
+                    decoration: InputDecoration(
+                        hintText: 'Descripcion'
+                    ),
                   ),
-                ),
-                SizedBox(height: 10,),
-                ElevatedButton(onPressed: (){
-                  nombre = c_nombre.text;
-                  precio = c_precio.text;
-                  descripcion = c_descripcion.text;
+                  SizedBox(height: 10,),
+                  ElevatedButton(onPressed: (){
+                    nombre = c_nombre.text;
+                    precio = c_precio.text;
+                    descripcion = c_descripcion.text;
 
-                  if(nombre == '' || precio == '' || descripcion == ''){
-                    mostrar_alerta('Debes de llenar todos los datos');
-                  }else{
-                    editar_producto();
-                  }
-                },
-                    child: Text('Editar')
-                ),
-              ],
+                    if(nombre == '' || precio == '' || descripcion == ''){
+                      mostrar_alerta('Debes de llenar todos los datos');
+                    }else{
+                      editar_producto();
+                    }
+                  },
+                      child: Text('Editar')
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

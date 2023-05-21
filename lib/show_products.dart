@@ -1,9 +1,10 @@
 import 'dart:convert';
-
 import 'package:apps/editar.dart';
 import 'package:apps/registros.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'customloading.dart';
 
 class Productos extends StatefulWidget {
   const Productos({Key? key}) : super(key: key);
@@ -53,10 +54,14 @@ class _ProductosState extends State<Productos> {
             actions: [
               TextButton(onPressed: (){
                 Navigator.of(context).pop();
+
+
                 eliminar_producto(id);
+
               },
                   child: Text('Aceptar')),
               TextButton(onPressed: (){
+                _onItem('No Junciona');
                 Navigator.of(context).pop();
               },
                   child: Text('Cancelar'))
@@ -90,6 +95,15 @@ class _ProductosState extends State<Productos> {
     );
   }
 
+  void _onItem (String msg) async {
+    SmartDialog.showLoading(
+      animationType: SmartAnimationType.scale,
+      builder: (_) => CustomLoading(type: 1),
+    );
+    await Future.delayed(Duration(seconds: 5));
+    SmartDialog.dismiss(status: SmartStatus.loading);
+  }
+
   Future eliminar_producto(id) async {
 
     var url = Uri.parse('https://www.fictionsearch.net/AndroidDatabaseConnect/eliminar_Productos.php');
@@ -97,7 +111,6 @@ class _ProductosState extends State<Productos> {
     var response = await http.post(url, body: {
       'id' : id
     }).timeout(const Duration(seconds: 90));
-
     if (response.body == '1'){
       mostrar_alerta('Tu producto se elimino correctamente');
       setState(() {
@@ -199,6 +212,7 @@ class _ProductosState extends State<Productos> {
                   SizedBox(width: 10,),
                   InkWell(
                     onTap: (){
+                      SmartDialog.showLoading(builder: (_) => CustomLoading(type: 1));
                       msn_eliminar(reg[index].id, reg[index].nombre);
                     },
                     child: Icon(Icons.delete, color: Colors.red,),
